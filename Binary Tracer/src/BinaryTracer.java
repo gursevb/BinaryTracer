@@ -1,67 +1,147 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class BinaryTracer
 	{
-	static int num = 0;
-    static ArrayList numbers = new ArrayList();
+
 	public static void main(String[] args)
 		{
-		// binarySearch(null, 0);
-		userInput();
-		}
-
-	public static void userInput()
-		{
-
+		int numbersAdded = 0;
+		int middle = 0;
 		
-		System.out.println("Enter the numbers for your array. Please end the array with a -1.");
-		Scanner input = new Scanner(System.in);
-		num = input.nextInt();
-
-		while(num >= 0)
+		ArrayList listArray = new ArrayList();
+		System.out.println("Please enter your numbers 1-20, and when your done end the Array with a -1.");
+		
+			do			
 			{
-			firstStep();
-			}
+			System.out.println("Enter # from 1-20, or -1 to end the Array.");
+			Scanner userInput2 = new Scanner(System.in);
+			numbersAdded = userInput2.nextInt();
+			if(numbersAdded >= 1 && numbersAdded <= 20 )
+				{
+				listArray.add(numbersAdded);
+				}
+			else if(numbersAdded <= 0 && numbersAdded != -1 || numbersAdded >= 21)
+				{
+				System.out.println("Please only imput numbers in the range of 1 - 20 inclusive.");
+				}
+			}	
+		while(numbersAdded != -1);
+		Collections.sort(listArray);
 		
-
-		//for (int i = 0; i < numbers.size(); i++) 
-			//{ 
-			//System.out.println(numbers.get(i));
-			//}
-		}
-	
-	public static void firstStep()
-		{
-		System.out.println("Enter the numbers for your array. Please end the array with a -1.");
-		Scanner input = new Scanner(System.in);
-		int a = input.nextInt();
-		numbers.add(a);
-System.out.println(numbers);
-		numbers.remove(numbers.size()-1);
-
+		
+		int indexOfTarget = (int)(Math.random() * listArray.size());	
+		int target = (int)(listArray.get(indexOfTarget - 1));
+		System.out.println("The target number is " + target + ".");
+		int counter = 0;
+		
+		binarySearch( listArray, target, counter);
 		}
 
-	public static int binarySearch(int[] elements, int target)
+	public static int binarySearch(ArrayList listArray, int target, int counter)
 		{
+
 		int left = 0;
-		int right = elements.length - 1;
+		int right = listArray.size() - 1;
 		while (left <= right)
 			{
 			int middle = (left + right) / 2;
-			if (target < elements[middle])
+			for(int i = 0; i < listArray.size(); i++)
+					{
+					System.out.print(listArray.get(i));
+					System.out.print(" ");
+					}
+			
+			Scanner userInput6 = new Scanner(System.in);
+			System.out.println("What is the right index?");
+			int userRight = userInput6.nextInt();
+			
+			for(int i = 0; i < listArray.size() - 1; i++)
 				{
-				right = middle - 1;
-				} else if (target > elements[middle])
-				{
-				left = middle + 1;
-				} else
-				{
-				return middle;
+				System.out.print(listArray.get(i));
+				System.out.print(" ");
 				}
-			}
-		return -1;
-		}
+			
+			Scanner userInput5 = new Scanner(System.in);
+			System.out.println();
+			System.out.println("What is the left index?");
+			int userLeft = userInput5.nextInt();
+			
+			for(int i = 0; i < listArray.size() - 1; i++)
+				{
+				System.out.print(listArray.get(i));
+				System.out.print(" ");
+				}			
+			
+			Scanner userInput4 = new Scanner(System.in);
+			System.out.println();
+			System.out.println("What is the middle index?");
+			int userMiddle = userInput4.nextInt();
+				
+			for(int i = 0; i < listArray.size() - 1; i++)
+				{
+				System.out.print(listArray.get(i));
+				System.out.print(" ");
+				}
+			
+			Scanner userInput7 = new Scanner(System.in);
+			System.out.println();
+			System.out.println("What is the value of the middle?");
+			int ofMiddleIndex = userInput7.nextInt();
+			//determining the answer and the amount of tries
+			if(userLeft == left && userRight == right)
+				{
+				
+				if(userMiddle == middle)
+					{
+					if (target < ((int)listArray.get(middle)) && ((int)listArray.get(middle)) == ofMiddleIndex)
+						{
+						right = middle - 1;
+						counter++;
+						}
+					else if(target < ((int)listArray.get(middle)) && ((int)listArray.get(middle)) != ofMiddleIndex)
+						{
+					System.out.println("That is incorrect, please try again.");
+					counter++;
+						}
+					else if (target > ((int)listArray.get(middle)) && ((int)listArray.get(middle)) == ofMiddleIndex)
+						{
+					left = middle + 1;
+					counter++;
+						}
+					else if(target > ((int)listArray.get(middle)) && ((int)listArray.get(middle)) != ofMiddleIndex )
+						{
+					System.out.println("That is incorrect, please try again.");
+					counter++;
+						}
+					else
+						{
+						System.out.println("Good Job! It took you " + counter + " tries to complete the quiz!");
+						return middle;
+						}
+					}
+				}
+			//if else to determine if the answer is correct 
 
-	}
+			else if(userLeft != left)
+				{
+				System.out.println("That is incorrect, please try again.");
+				counter++;
+				}
+			else if(userRight != right)
+				{
+				System.out.println("That is incorrect, please try again.");
+				counter++;
+				}
+			
+			else if(userMiddle != middle)
+				{
+				System.out.println("That is incorrect, please try again.");
+				counter++;
+				}			
+			}
+		//return the -1
+			return -1;
+		}
+}
